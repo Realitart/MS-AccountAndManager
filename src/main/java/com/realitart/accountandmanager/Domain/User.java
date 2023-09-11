@@ -19,7 +19,7 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "ID_USER_TYPE")
     UserType idUserType;
-    private String password;
+//    private String password;
     private String username;
     private String name;
     private String email;

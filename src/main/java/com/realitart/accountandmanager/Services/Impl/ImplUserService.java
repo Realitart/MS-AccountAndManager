@@ -37,7 +37,7 @@ public class ImplUserService implements IUserService {
                 user -> {
                     if(request.getName() != null) user.setName(request.getName());
                     if(request.getEmail() != null) user.setEmail(request.getEmail());
-                    if(request.getPassword() != null) user.setPassword(request.getPassword());
+//                    if(request.getPassword() != null) user.setPassword(request.getPassword());
                     if(request.getActiveNotifications() != null) user.setActiveNotifications(request.getActiveNotifications());
                     if(request.getImageId() != null) user.setImageId(request.getImageId());
                     if(request.getUsername() != null) user.setUsername(request.getUsername());
