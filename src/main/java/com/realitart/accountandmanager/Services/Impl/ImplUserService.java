@@ -22,6 +22,7 @@ public class ImplUserService implements IUserService {
     @Override
     public OperationResponse createUser(User request) {
         try{
+            request.setId(null);
             _userRepo.save(request);
 
             return new OperationResponse(true, "Usuario creado correctamente");
