@@ -8,8 +8,8 @@ import com.realitart.accountandmanager.share.response.OperationResponse;
 import java.util.List;
 
 public interface IUserService {
-    OperationResponse createUser(User request);
-    OperationResponse updateUser(Long userId, User request);
+    UserDTO createUser(User request);
+    UserDTO updateUser(Long userId, User request);
     OperationResponse deleteUser(Long userId);
     User getUserData(Long userId);
     List<User> getAllUsers();

@@ -23,7 +23,7 @@ public class UserController {
 
     @PostMapping()
     @Operation(summary = "Create a new user")
-    OperationResponse createUser(@Valid @RequestBody UserCreateDTO request){
+    UserDTO createUser(@Valid @RequestBody UserCreateDTO request){
         return userService.createUser(mapper.toModel(request));
     }
 
@@ -35,7 +35,7 @@ public class UserController {
 
     @PutMapping("/{userId}")
     @Operation(summary = "Update a user")
-    OperationResponse updateUser(@PathVariable Long userId,@RequestBody UserCreateDTO request){
+    UserDTO updateUser(@PathVariable Long userId,@RequestBody UserCreateDTO request){
         return userService.updateUser(userId,mapper.toModel(request));
     }
 

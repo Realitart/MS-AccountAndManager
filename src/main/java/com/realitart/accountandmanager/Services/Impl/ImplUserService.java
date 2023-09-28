@@ -2,6 +2,7 @@ package com.realitart.accountandmanager.Services.Impl;
 
 import com.realitart.accountandmanager.Domain.Repositories.IUserRepostory;
 import com.realitart.accountandmanager.Domain.User;
+import com.realitart.accountandmanager.Dtos.UserDTO;
 import com.realitart.accountandmanager.Services.IUserService;
 import com.realitart.accountandmanager.share.exceptions.ResourceNotFoundException;
 import com.realitart.accountandmanager.share.response.OperationResponse;
@@ -20,12 +21,11 @@ public class ImplUserService implements IUserService {
 
 
     @Override
-    public OperationResponse createUser(User request) {
+    public UserDTO createUser(User request) {
         try{
             request.setId(null);
-            _userRepo.save(request);
-
-            return new OperationResponse(true, "Usuario creado correctamente");
+            User user = _userRepo.save(request);
+            return new UserDTO(user.getId(), user.getIdUserType().getId(), user.getUsername(), user.getName(), user.getEmail(), user.getActiveNotifications(), user.getImageId());
         } catch (Exception e) {
             throw new ResourceNotFoundException("Error al crear el usuario", e);
         }
@@ -33,7 +33,7 @@ public class ImplUserService implements IUserService {
     }
 
     @Override
-    public OperationResponse updateUser(Long userId, User request) {
+    public UserDTO updateUser(Long userId, User request) {
         return _userRepo.findById(userId).map(
                 user -> {
                     if(request.getName() != null) user.setName(request.getName());
@@ -43,9 +43,9 @@ public class ImplUserService implements IUserService {
                     if(request.getImageId() != null) user.setImageId(request.getImageId());
                     if(request.getUsername() != null) user.setUsername(request.getUsername());
 
-                    _userRepo.save(user);
+                   User userResp = _userRepo.save(user);
 
-                    return new OperationResponse(true, "Usuario actualizado correctamente");
+                    return new UserDTO(userResp.getId(), userResp.getIdUserType().getId(), userResp.getUsername(), userResp.getName(), userResp.getEmail(), userResp.getActiveNotifications(), userResp.getImageId());
                 }
         ).orElseThrow(() -> new ResourceNotFoundException(ENTITY, userId));
 
