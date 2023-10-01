@@ -12,6 +12,7 @@ public interface IUserService {
     UserDTO updateUser(Long userId, User request);
     OperationResponse deleteUser(Long userId);
     User getUserData(Long userId);
+    User getUserDataByUsername(String username);
     List<User> getAllUsers();
 
 }

@@ -44,6 +44,11 @@ public class UserController {
     ResponseEntity<UserDTO> getUserData(@PathVariable Long userId){
         return ResponseEntity.ok(mapper.toResource(userService.getUserData(userId)));
     }
+    @GetMapping("/{username}")
+    @Operation(summary = "Get a user by username")
+    ResponseEntity<UserDTO> getUserData(@PathVariable String userId){
+        return ResponseEntity.ok(mapper.toResource(userService.getUserDataByUsername(userId)));
+    }
 
     @GetMapping()
     @Operation(summary = "Get all users")

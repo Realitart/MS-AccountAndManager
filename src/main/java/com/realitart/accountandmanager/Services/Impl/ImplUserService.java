@@ -23,6 +23,9 @@ public class ImplUserService implements IUserService {
     @Override
     public UserDTO createUser(User request) {
         try{
+            //dont repeat username
+            User userExist = _userRepo.findByUsername(request.getUsername());
+            if(userExist != null) throw new ResourceNotFoundException("El usuario ya existe");
             request.setId(null);
             User user = _userRepo.save(request);
             return new UserDTO(user.getId(), user.getIdUserType().getId(), user.getUsername(), user.getName(), user.getEmail(), user.getActiveNotifications(), user.getImageId());
@@ -69,6 +72,16 @@ public class ImplUserService implements IUserService {
             throw new ResourceNotFoundException("Error al obtener el usuario", e);
         }
     }
+
+    @Override
+    public User getUserDataByUsername(String username) {
+        try{
+            return _userRepo.findByUsername(username);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Error al obtener el usuario", e);
+        }
+    }
+
 
     @Override
     public List<User> getAllUsers() {

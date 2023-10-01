@@ -12,4 +12,7 @@ public interface IUserRepostory extends JpaRepository<User, Long> {
 //            " from parking_lot pl " +
 //            " where pl.campus_id = ?1")
 //    public Optional<List<IParkingLotByCampusRespDTO>> get_parkinglot_by_campusId(Long campusId, String fecha);
+
+    //find by username
+    User findByUsername(String username);
 }
