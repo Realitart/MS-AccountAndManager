@@ -1,5 +1,6 @@
 package com.realitart.accountandmanager.Controller;
 
+import com.realitart.accountandmanager.Domain.User;
 import com.realitart.accountandmanager.Dtos.UserCreateDTO;
 import com.realitart.accountandmanager.Dtos.UserDTO;
 import com.realitart.accountandmanager.Services.IUserService;
@@ -39,16 +40,35 @@ public class UserController {
         return userService.updateUser(userId,mapper.toModel(request));
     }
 
-    @GetMapping("/{userId}")
-    @Operation(summary = "Get a user by id")
-    ResponseEntity<UserDTO> getUserData(@PathVariable Long userId){
-        return ResponseEntity.ok(mapper.toResource(userService.getUserData(userId)));
+//    @GetMapping()
+//    @Operation(summary = "Get a user by id")
+//    ResponseEntity<UserDTO> getUserData(@PathVariable(required = false) Long userId,@PathVariable(required = false) String username){
+//        if(userId == null && username != null) return ResponseEntity.ok(mapper.toResource(userService.getUserDataByUsername(username)));
+//        if (username != null) {
+//            return ResponseEntity.ok(mapper.toResource(userService.getUserDataByUsername(username)));
+//        } else {
+//            return ResponseEntity.ok(mapper.toResource(userService.getUserData(userId)));
+//        }
+//    }
+@GetMapping("/{userIdOrUsername}")
+@Operation(summary = "Get a user by ID or username")
+public ResponseEntity<UserDTO> getUserData(@PathVariable String userIdOrUsername) {
+    User userDTO = null;
+
+    try {
+        Long userId = Long.parseLong(userIdOrUsername);
+        userDTO = userService.getUserData(userId);
+    } catch (NumberFormatException e) {
+        // El parámetro no es un ID válido, asumimos que es un nombre de usuario
+        userDTO = userService.getUserDataByUsername(userIdOrUsername);
     }
-    @GetMapping("/{username}")
-    @Operation(summary = "Get a user by username")
-    ResponseEntity<UserDTO> getUserData(@PathVariable String userId){
-        return ResponseEntity.ok(mapper.toResource(userService.getUserDataByUsername(userId)));
+
+    if (userDTO != null) {
+        return ResponseEntity.ok(mapper.toResource(userDTO));
+    } else {
+        return ResponseEntity.notFound().build();
     }
+}
 
     @GetMapping()
     @Operation(summary = "Get all users")

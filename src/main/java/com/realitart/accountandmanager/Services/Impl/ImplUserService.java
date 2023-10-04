@@ -67,7 +67,7 @@ public class ImplUserService implements IUserService {
     @Override
     public User getUserData(Long userId) {
         try{
-            return _userRepo.findById(userId).get();
+            return _userRepo.findById(userId).orElseThrow(() -> new ResourceNotFoundException(ENTITY, userId));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Error al obtener el usuario", e);
         }
